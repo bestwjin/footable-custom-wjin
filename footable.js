@@ -4667,6 +4667,14 @@
 		// if we have an element or a jQuery object use jQuery to get the value
 		if (F.is.element(valueOrElement) || F.is.jq(valueOrElement)){
 			var data = $(valueOrElement).data('filterValue');
+			
+			// 만약 셀에 input이나 select가 있을경우의 처리.
+			var selobj = $(valueOrElement).find("select option:selected");
+			var inputobj = $(valueOrElement).find("input[type=text]");
+
+			if(inputobj.val() != "") $(valueOrElement).text(inputobj.val());
+			if(selobj.val() != "") $(valueOrElement).text(selobj.html());
+			
 			return F.is.defined(data) ? ''+data : $(valueOrElement).text();
 		}
 		// if options are supplied with the value

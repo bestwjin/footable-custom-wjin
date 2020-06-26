@@ -8,7 +8,8 @@
 (function($, F){
 	// add in console we use in case it's missing
 	window.console = window.console || { log:function(){}, error:function(){} };
-
+	var addNewBtnYn = true;	// 신규등록 버튼을 추가할지 말지여부
+	
 	/**
 	 * The jQuery plugin initializer.
 	 * @function jQuery.fn.footable
@@ -20,6 +21,11 @@
 		options = options || {};
 		// make sure we only work with tables
 		return this.filter('table').each(function (i, tbl) {
+			// dont-newbtn이라는 클래스가 table에 있다면, 신규등록 버튼을 추가하지 않는다.
+			if($(tbl).prop('class').indexOf("dont-newbtn") > -1) {
+				addNewBtnYn = false;
+			}
+
 			F.init(tbl, options, ready);
 		});
 	};
@@ -4040,7 +4046,8 @@
 
 			// 신규등록 버튼
 			self.$newbuttondiv = $('<div/>', {'class': 'si-each-div si-each-div-btn'});
-			self.newbutton = $('<a/>', {'class':'btn-common'}).attr("href", "javascript:create();").html("신규등록").appendTo(self.$newbuttondiv);	
+			self.newbutton = $('<a/>', {'class':'btn-common'}).attr("href", "javascript:create();").html("신규등록");
+			if(self.addNewBtnYn) self.newbutton.appendTo(self.$newbuttondiv);	
 			
 			self.$form = $('<form/>', {'class': 'form-inline'}).append(self.$newbuttondiv).append($form_grp).appendTo(self.$container);			
 			
